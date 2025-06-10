@@ -2,13 +2,20 @@
 const nextConfig = {
   experimental: {
     serverComponentsHmrCache: false, // defaults to true
+    serverActions: {
+      bodySizeLimit: '5mb', // or any size you need, like '5mb'
+    },
   },
   images: {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "ymqpkygmownybanldbpq.supabase.co",
+        hostname: "dvfkdjpixtuznysljuad.supabase.co",
       },
+      // {
+      //   protocol: "https",
+      //   hostname: "ik.imagekit.io",
+      // },
     ],
   },
 
@@ -19,7 +26,7 @@ const nextConfig = {
         headers: [
           {
             key: "Content-Security-Policy",
-            value: "frame-src 'self' https://roadsidecoder.created.app;",
+            value: "frame-src 'self' https://www.linkedin.com/in/sandip-manna/",
           },
         ],
       },

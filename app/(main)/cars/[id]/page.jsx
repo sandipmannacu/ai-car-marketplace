@@ -25,6 +25,9 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function CarDetailsPage({ params }) {
+  console.log("Fetching car details...");
+  
+  const start = performance.now();
   // Fetch car details
   const { id } = await params;
   const result = await getCarById(id);
@@ -33,6 +36,9 @@ export default async function CarDetailsPage({ params }) {
   if (!result.success) {
     notFound();
   }
+  let end = performance.now();
+  console.log(`Car details fetched in ${end - start}ms`)
+  
 
   return (
     <div className="container mx-auto px-4 py-12">

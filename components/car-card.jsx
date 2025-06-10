@@ -17,6 +17,7 @@ export const CarCard = ({ car }) => {
   const { isSignedIn } = useAuth();
   const router = useRouter();
   const [isSaved, setIsSaved] = useState(car.wishlisted);
+  const formatter = new Intl.NumberFormat('en-US');
 
   // Use the useFetch hook
   const {
@@ -101,7 +102,7 @@ export const CarCard = ({ car }) => {
             {car.make} {car.model}
           </h3>
           <span className="text-xl font-bold text-blue-600">
-            ${car.price.toLocaleString()}
+            ${formatter.format(car.price)}
           </span>
         </div>
 
@@ -118,7 +119,7 @@ export const CarCard = ({ car }) => {
             {car.bodyType}
           </Badge>
           <Badge variant="outline" className="bg-gray-50">
-            {car.mileage.toLocaleString()} miles
+            {formatter.format(car.mileage)} miles
           </Badge>
           <Badge variant="outline" className="bg-gray-50">
             {car.color}

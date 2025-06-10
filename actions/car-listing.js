@@ -355,6 +355,7 @@ export async function getCarById(carId) {
     throw new Error(
       "Error fetching car details:" + error?.message || " Please try again later"
     );
+    
   }
 }
 

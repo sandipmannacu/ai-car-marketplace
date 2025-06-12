@@ -34,7 +34,14 @@ import useFetch from "@/hooks/use-fetch";
 import Image from "next/image";
 
 // Predefined options
-const fuelTypes = ["Petrol", "Diesel", "Electric", "Hybrid", "Plug-in Hybrid"];
+const fuelTypes = [
+  "Petrol",
+  "Diesel",
+  "Electric",
+  "Hybrid",
+  "Plug-in Hybrid",
+  "Gasoline",
+];
 const transmissions = ["Automatic", "Manual", "Semi-Automatic"];
 const bodyTypes = [
   "SUV",
@@ -133,7 +140,7 @@ export const AddCarForm = () => {
   }, [processImageError]);
 
   // Handle successful AI processing
-  useEffect(() => {
+  useEffect(() => {  
     if (processImageResult?.success) {
       const carDetails = processImageResult.data;
 
@@ -173,7 +180,7 @@ export const AddCarForm = () => {
       toast.error("Please upload an image first");
       return;
     }
-
+    
     await processImageFn(uploadedAiImage);
   };
 
@@ -190,7 +197,7 @@ export const AddCarForm = () => {
     setUploadedAiImage(file);
 
     const reader = new FileReader();
-    reader.onload = (e) => {
+    reader.onload = (e) => {      
       setImagePreview(e.target.result);
     };
     reader.readAsDataURL(file);
@@ -266,7 +273,7 @@ export const AddCarForm = () => {
     setUploadedImages((prev) => prev.filter((_, i) => i !== index));
   };
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data) => {   
     // Check if images are uploaded
     if (uploadedImages.length === 0) {
       setImageError("Please upload at least one image");

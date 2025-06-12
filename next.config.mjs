@@ -12,10 +12,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "dvfkdjpixtuznysljuad.supabase.co",
       },
-      // {
-      //   protocol: "https",
-      //   hostname: "ik.imagekit.io",
-      // },
+      {
+        protocol: "https",
+        hostname: "ik.imagekit.io",
+      },
     ],
   },
 

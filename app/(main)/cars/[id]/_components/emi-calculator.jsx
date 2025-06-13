@@ -94,7 +94,7 @@ function EmiCalculator({ price = 1000 }) {
             <div className="space-y-3">
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <span className="text-gray-700 dark:text-gray-300">$</span>
+                  <span className="text-gray-700 dark:text-gray-300">₹</span>
                 </div>
                 <input
                   type="number"
@@ -125,7 +125,7 @@ function EmiCalculator({ price = 1000 }) {
             <div className="space-y-3">
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <span className="text-gray-700 dark:text-gray-300">$</span>
+                  <span className="text-gray-700 dark:text-gray-300">₹</span>
                 </div>
                 <input
                   type="number"

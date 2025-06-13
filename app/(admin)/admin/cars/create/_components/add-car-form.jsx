@@ -31,6 +31,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Label } from "@/components/ui/label";
 import { addCar, processCarImageWithAI } from "@/actions/cars";
 import useFetch from "@/hooks/use-fetch";
+// import { Image } from "@imagekit/next";
 import Image from "next/image";
 
 // Predefined options
@@ -140,7 +141,7 @@ export const AddCarForm = () => {
   }, [processImageError]);
 
   // Handle successful AI processing
-  useEffect(() => {  
+  useEffect(() => {
     if (processImageResult?.success) {
       const carDetails = processImageResult.data;
 
@@ -180,9 +181,26 @@ export const AddCarForm = () => {
       toast.error("Please upload an image first");
       return;
     }
-    
-    await processImageFn(uploadedAiImage);
+
+    await processImageFn(uploadedAiImage, 
+    //   {
+    //   removeBackground: true,
+    //   useImageKit: true,
+    // }
+  );
   };
+
+  useEffect(() => {
+    console.log({ processImageResult });
+
+    if (processImageResult?.success && processImageResult?.imageUrl) {
+      if (!uploadedImages.includes(processImageResult.imageUrl)) {
+        console.log("Image seted");
+
+        setUploadedImages((prev) => [processImageResult.imageUrl, ...prev]);
+      }
+    }
+  }, [processImageResult]);
 
   // Handle AI image upload with Dropzone
   const onAiDrop = useCallback((acceptedFiles) => {
@@ -197,7 +215,7 @@ export const AddCarForm = () => {
     setUploadedAiImage(file);
 
     const reader = new FileReader();
-    reader.onload = (e) => {      
+    reader.onload = (e) => {
       setImagePreview(e.target.result);
     };
     reader.readAsDataURL(file);
@@ -273,7 +291,7 @@ export const AddCarForm = () => {
     setUploadedImages((prev) => prev.filter((_, i) => i !== index));
   };
 
-  const onSubmit = async (data) => {   
+  const onSubmit = async (data) => {
     // Check if images are uploaded
     if (uploadedImages.length === 0) {
       setImageError("Please upload at least one image");
@@ -370,7 +388,7 @@ export const AddCarForm = () => {
 
                   {/* Price */}
                   <div className="space-y-2">
-                    <Label htmlFor="price">Price ($)</Label>
+                    <Label htmlFor="price">Price (₹)</Label>
                     <Input
                       id="price"
                       {...register("price")}

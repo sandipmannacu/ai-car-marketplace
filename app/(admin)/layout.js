@@ -13,7 +13,7 @@ export default async function AdminLayout({ children }) {
 
   return (
     <div className="h-full">
-      <Header isAdminPage={true} />
+      <Header isAdminPage={true} userDetail={admin?.user} />
       <div className="flex h-full w-56 flex-col top-20 fixed inset-y-0 z-50">
         <Sidebar />
       </div>

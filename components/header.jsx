@@ -6,9 +6,10 @@ import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 import { checkUser } from "@/lib/checkUser";
 import Image from "next/image";
 
-const Header = async ({ isAdminPage = false }) => {
-  const user = await checkUser();
+const Header = async ({ isAdminPage = false , userDetail }) => {
+  const user = userDetail?.role ? userDetail : await checkUser();
   const isAdmin = user?.role === "ADMIN";
+
 
   return (
     <header className="fixed top-0 w-full bg-white/80 backdrop-blur-md z-50 border-b">

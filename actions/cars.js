@@ -8,6 +8,7 @@ import { db } from "@/lib/prisma";
 import { createClient } from "@/lib/supabase";
 import { auth } from "@clerk/nextjs/server";
 import { serializeCarData } from "@/lib/helpers";
+import { getServerImageKit } from "@/lib/imageKit";
 
 // Function to convert File to base64
 async function fileToBase64(file) {
@@ -17,7 +18,7 @@ async function fileToBase64(file) {
 }
 
 // Gemini AI integration for car image processing
-export async function processCarImageWithAI(file) {
+export async function processCarImageWithAI(file, options = {}) {
   try {
     // Check if API key is available
     if (!process.env.GEMINI_API_KEY) {
@@ -26,7 +27,7 @@ export async function processCarImageWithAI(file) {
 
     // Initialize Gemini API
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
 
     // Convert image file to base64
     const base64Image = await fileToBase64(file);
@@ -107,10 +108,38 @@ export async function processCarImageWithAI(file) {
         );
       }
 
+      let imageUrl = null;
+      if (options?.useImageKit) {
+        try {
+          const arrayBuffer = await file.arrayBuffer();
+          const buffer = Buffer.from(arrayBuffer);
+          const imageKit = getServerImageKit();
+          const uploadResult = await imageKit.upload({
+            file: buffer,
+            fileName: `car_${carDetails.make}_${
+              carDetails.model
+            }_${Date.now()}.jpg`,
+            useUniqueFileName: true,
+            folder: "/cars/",
+          });
+
+          console.log({uploadResult});
+          
+          imageUrl = uploadResult.url;
+          if (options?.removeBackground) {
+            imageUrl = removeBackground(imageUrl);
+          }
+          console.log("Image uploaded successfully to ImageKit:", imageUrl);
+        } catch (error) {
+          console.log("Error uploading image to ImageKit:", error);
+        }
+      }
+
       // Return success response with data
       return {
         success: true,
         data: carDetails,
+        imageUrl: imageUrl
       };
     } catch (parseError) {
       console.error("Failed to parse AI response:", parseError);

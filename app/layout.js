@@ -14,7 +14,6 @@ export const metadata = {
 };
 
 export default async function RootLayout({ children }) {
- const admin = await getAdmin();
   return (
     <ClerkProvider>
       <html lang="en">
@@ -33,7 +32,7 @@ export default async function RootLayout({ children }) {
             urlEndpoint={process.env.NEXT_PUBLIC_IMAGEKIT_URL_ENDPOINT}
             publicKey={process.env.NEXT_PUBLIC_IMAGEKIT_PUBLIC_KEY}
           >
-            <Header userDetail={admin?.user} />
+            <Header />
             <main className="min-h-screen">{children}</main>
             <Toaster richColors />
 

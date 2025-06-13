@@ -4,7 +4,6 @@ import Header from "@/components/header";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "sonner";
 import { ImageKitProvider } from "@imagekit/next";
-import { getAdmin } from "@/actions/admin";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -29,8 +28,7 @@ export default async function RootLayout({ children }) {
         </head>
         <body className={`${inter.className}`}>
           <ImageKitProvider
-            urlEndpoint={process.env.NEXT_PUBLIC_IMAGEKIT_URL_ENDPOINT}
-            publicKey={process.env.NEXT_PUBLIC_IMAGEKIT_PUBLIC_KEY}
+            urlEndpoint={process.env.NEXT_PUBLIC_IMAGEKIT_URL_ENDPIONT}
           >
             <Header />
             <main className="min-h-screen">{children}</main>

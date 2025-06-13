@@ -16,14 +16,14 @@ const Header = async ({ isAdminPage = false , userDetail = null }) => {
       <nav className="mx-auto px-4 py-4 flex items-center justify-between">
         <Link href={isAdminPage ? "/admin" : "/"} className="flex">
           <Image
-            src={"/logo.svg"}
+            src={"/logo4.png"}
             alt="CarLens Logo"
             width={200}
             height={60}
             className="h-12 w-auto object-contain"
           />
           {isAdminPage && (
-            <span className="text-xs font-extralight">admin</span>
+            <span className="text-xs font-extralight items-center">admin</span>
           )}
         </Link>
 

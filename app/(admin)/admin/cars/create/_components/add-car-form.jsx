@@ -31,7 +31,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Label } from "@/components/ui/label";
 import { addCar, processCarImageWithAI } from "@/actions/cars";
 import useFetch from "@/hooks/use-fetch";
-// import { Image } from "@imagekit/next";
+// import  { Image }  from "@imagekit/next";
 import Image from "next/image";
 
 // Predefined options
@@ -161,6 +161,8 @@ export const AddCarForm = () => {
       const reader = new FileReader();
       reader.onload = (e) => {
         setUploadedImages((prev) => [...prev, e.target.result]);
+        // setUploadedImages((prev) => [processImageResult.imageUrl,...prev]);
+
       };
       reader.readAsDataURL(uploadedAiImage);
 
@@ -184,19 +186,16 @@ export const AddCarForm = () => {
 
     await processImageFn(uploadedAiImage, 
     //   {
-    //   removeBackground: true,
-    //   useImageKit: true,
+    //   // removeBackground: true,
+    //   // useImageKit: true,
     // }
   );
   };
 
   useEffect(() => {
-    console.log({ processImageResult });
-
     if (processImageResult?.success && processImageResult?.imageUrl) {
+      console.log({uploadedImages});
       if (!uploadedImages.includes(processImageResult.imageUrl)) {
-        console.log("Image seted");
-
         setUploadedImages((prev) => [processImageResult.imageUrl, ...prev]);
       }
     }
@@ -307,10 +306,13 @@ export const AddCarForm = () => {
       seats: data.seats ? parseInt(data.seats) : null,
     };
 
+    const processedImageUrl = processImageResult?.imageUrl || null
+
     // Call the addCar function with our useFetch hook
     await addCarFn({
       carData,
-      images: uploadedImages,
+      images: uploadedImages.filter((img)=> img !== processedImageUrl),
+      // processedImageUrl
     });
   };
 
@@ -641,6 +643,15 @@ export const AddCarForm = () => {
                               className="h-28 w-full object-cover rounded-md"
                               priority
                             />
+                            {/* <Image
+                              urlEndpoint={process.env.NEXT_PUBLIC_IMAGEKIT_URL_ENDPIONT}
+                              src={image}
+                              alt={`Car image ${index + 1}`}
+                              height={50}
+                              width={50}
+                              className="h-28 w-full object-cover rounded-md"
+                              priority
+                            /> */}
                             <Button
                               type="button"
                               size="icon"

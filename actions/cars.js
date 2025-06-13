@@ -8,7 +8,7 @@ import { db } from "@/lib/prisma";
 import { createClient } from "@/lib/supabase";
 import { auth } from "@clerk/nextjs/server";
 import { serializeCarData } from "@/lib/helpers";
-import { getServerImageKit } from "@/lib/imageKit";
+import { getServerImageKit,removeBackground } from "@/lib/imageKit";
 
 // Function to convert File to base64
 async function fileToBase64(file) {
@@ -156,7 +156,7 @@ export async function processCarImageWithAI(file, options = {}) {
 }
 
 // Add a car to the database with images
-export async function addCar({ carData, images }) {
+export async function addCar({ carData, images, processedImageUrl =null }) {
   try {
     const { userId } = await auth();
     if (!userId) throw new Error("Unauthorized");
@@ -178,6 +178,10 @@ export async function addCar({ carData, images }) {
     // Upload all images to Supabase storage
     const imageUrls = [];
 
+    // if(processedImageUrl){
+    //   imageUrls.push(processedImageUrl)
+    // }
+
     for (let i = 0; i < images.length; i++) {
       const base64Data = images[i];
 
@@ -195,7 +199,21 @@ export async function addCar({ carData, images }) {
       const mimeMatch = base64Data.match(/data:image\/([a-zA-Z0-9]+);/);
       const fileExtension = mimeMatch ? mimeMatch[1] : "jpeg";
 
-      // Create filename
+
+
+      // // Create filename
+      // const fileName = `${carData.make}_${carData.model}_${i+1}_${Date.now()}.${fileExtension}`;
+      // const imageKit = getServerImageKit()
+      // const uploadResult = await imageKit.upload({
+      //   file:base64,
+      //   fileName: fileName,
+      //   folder:`/cars/${carId}`,
+      //   useUniqueFileName:true
+      // })
+
+      // imageUrls.push(uploadResult.url)
+
+
       const fileName = `image-${Date.now()}-${i}.${fileExtension}`;
       const filePath = `${folderPath}/${fileName}`;
 

@@ -102,7 +102,7 @@ export const CarCard = ({ car }) => {
             {car.make} {car.model}
           </h3>
           <span className="text-xl font-bold text-blue-600">
-            ${formatter.format(car.price)}
+            ₹{formatter.format(car.price)}
           </span>
         </div>
 
